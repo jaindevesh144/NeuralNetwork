@@ -14,9 +14,9 @@ class Dense:
     def backward(self, grad, lr=0.01):
         # grad.shape = (batch, out_features)
         # dW.shape = (in_features, out_features)
-        batch = grad.shape[0]
-        dW = self.x.T @ grad / batch
-        dB = np.sum(grad, axis=0, keepdims=True) / batch
+        batchSize = grad.shape[0]
+        dW = self.x.T @ grad / batchSize
+        dB = np.sum(grad, axis=0, keepdims=True) / batchSize
         dx = grad @ self.W.T
 
         self.W -= dW * lr
