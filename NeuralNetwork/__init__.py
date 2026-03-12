@@ -1,4 +1,4 @@
-from model import Model
-import layers as Layers
-import utils as utils
+from NeuralNetwork.model import Model
+import NeuralNetwork.layers as Layers
+import NeuralNetwork.utils as utils
 
