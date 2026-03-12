@@ -1,17 +1,16 @@
 import NeuralNetwork.utils as utils
 
-
 class Model:
     def forward(self, batch_x):
         y_predicted = batch_x
         for layer in self.layers:
             y_predicted = layer.forward(y_predicted)
-        return utils.softmax(y_predicted)
+        return y_predicted
     
     def backprop(self, batch_x, batch_y, lr):
         y_predicted = self.forward(batch_x)
 
-        grad = y_predicted - batch_y
+        grad = utils.CrossEntropyDerivative(y_predicted, batch_y)
 
         for layer in self.layers[::-1]:
             grad = layer.backward(grad, lr)

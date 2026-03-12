@@ -1,9 +1,9 @@
 import numpy as np
 
-def softmax(x):
-    x = x - np.max(x, axis=1, keepdims=True)
-    exp = np.exp(x)
-    return exp / np.sum(exp, axis=1, keepdims=True)
+def CrossEntropyDerivative(softmaxOutput, target):
+    eps = 1e-9
+    softmaxOutput = np.clip(softmaxOutput, eps, 1 - eps)
+    return -target / softmaxOutput
 
 def batchOneHotEncode(batch_y):
     batch_size = batch_y.shape[0]
@@ -17,7 +17,11 @@ def makeBatches(data, batchSize):
 def getPatches(img, kernelShape):
     kh, kw = kernelShape
     paddedImg = np.pad(img, ((kh//2, kh//2), (kw//2, kw//2)))
-    return np.lib.stride_tricks.as_strided(paddedImg, img.shape + kernelShape, 2 * paddedImg.strides)
+    return np.lib.stride_tricks.as_strided(
+        paddedImg, 
+        img.shape + kernelShape, 
+        2 * paddedImg.strides
+    )
 
 def convolve2d(img, kernels):
     patches = getPatches(img, kernels.shape[1:])

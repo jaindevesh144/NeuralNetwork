@@ -40,3 +40,15 @@ class Relu:
         dx[self.x <= 0] = self.alpha
         return grad * dx
     
+
+class Softmax:
+    def forward(self, x):
+        x = x - np.max(x, axis=1, keepdims=True)
+        exp = np.exp(x)
+        self.out = exp / np.sum(exp, axis=1, keepdims=True)
+        return self.out
+    
+    def backward(self, grad, lr):
+        s = self.out
+        dot = np.sum(grad * s, axis=1, keepdims=True)
+        return s * (grad - dot)

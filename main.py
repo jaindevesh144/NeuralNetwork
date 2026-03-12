@@ -8,7 +8,8 @@ class NeuralNetwork(Model):
             Layers.Relu(),
             Layers.Dense(128, 64),
             Layers.Relu(),
-            Layers.Dense(64, 10)
+            Layers.Dense(64, 10),
+            Layers.Softmax()
         ]
     
     def predict(self, x):
@@ -48,7 +49,7 @@ y_test = utils.batchOneHotEncode(target[60000:])
 
 network = NeuralNetwork()
 
-network.train(x_train, y_train, 20, 64, 0.1)
+network.train(x_train, y_train, 10, 64, 0.1)
 
 result = network.evaluate(x_test, y_test)
-print(result)
+print(f"Test Accuracy: {result * 100:.2f}%")
