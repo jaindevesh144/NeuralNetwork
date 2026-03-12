@@ -14,11 +14,11 @@ class NeuralNetwork(Model):
     def predict(self, x):
         return np.argmax(self.forward(x.reshape(1, 784)).flatten())
     
-    def test(self, x_train, y_train):
+    def evaluate(self, x_test, y_test):
         batch_size = 150
 
-        batches_x = utils.makeBatches(x_train, batch_size)
-        batches_y = utils.makeBatches(np.argmax(y_train, axis=1), batch_size)
+        batches_x = utils.makeBatches(x_test, batch_size)
+        batches_y = utils.makeBatches(np.argmax(y_test, axis=1), batch_size)
 
         batch_num = batches_x.shape[0]
 
@@ -28,8 +28,9 @@ class NeuralNetwork(Model):
             batch_x = batches_x[batchIndex]
             batch_y = batches_y[batchIndex]
             y_predicted = np.argmax(self.forward(batch_x), axis=1)
-            correct += batch_size - np.count_nonzero(batch_y - y_predicted)
-        return correct / x_train.shape[0]
+            correct += np.sum(y_predicted == batch_y)
+
+        return correct / (batch_num * batch_size)
 
 from sklearn.datasets import fetch_openml
 
@@ -47,7 +48,7 @@ y_test = utils.batchOneHotEncode(target[60000:])
 
 network = NeuralNetwork()
 
-network.train(x_train, y_train, 10)
+network.train(x_train, y_train, 20, 64, 0.1)
 
-result = network.test(x_test, y_test)
+result = network.evaluate(x_test, y_test)
 print(result)
