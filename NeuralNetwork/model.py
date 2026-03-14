@@ -27,7 +27,7 @@ class Model:
             for batchIndex in range(batch_num):
                 batch_x = batches_x[batchIndex]
                 batch_y = batches_y[batchIndex]
-                effectiveLearingRate = learningRate * (0.95 ** currentEpoch)
-                self.backprop(batch_x, batch_y, effectiveLearingRate)
+                effectiveLearningRate = learningRate * (0.95 ** currentEpoch)
+                self.backprop(batch_x, batch_y, effectiveLearningRate)
             print(f"Epoch {currentEpoch + 1}")
 
