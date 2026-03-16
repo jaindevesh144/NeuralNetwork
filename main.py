@@ -4,6 +4,9 @@ from NeuralNetwork import Layers, utils, Model
 class NeuralNetwork(Model):
     def __init__(self):
         self.layers = [
+            # Layers.Conv2D(8, (3, 3)),
+            # Layers.Relu(),
+            # Layers.MaxPool2D((2, 2)),
             Layers.Dense(784, 128),
             Layers.Relu(),
             Layers.Dense(128, 64),
@@ -11,12 +14,12 @@ class NeuralNetwork(Model):
             Layers.Dense(64, 10),
             Layers.Softmax()
         ]
-    
+
     def predict(self, x):
         return np.argmax(self.forward(x.reshape(1, 784)).flatten())
-    
+
     def evaluate(self, x_test, y_test):
-        batch_size = 150
+        batch_size = 120
 
         batches_x = utils.makeBatches(x_test, batch_size)
         batches_y = utils.makeBatches(np.argmax(y_test, axis=1), batch_size)
@@ -24,7 +27,7 @@ class NeuralNetwork(Model):
         batch_num = batches_x.shape[0]
 
         correct = 0
-        
+
         for batchIndex in range(batch_num):
             batch_x = batches_x[batchIndex]
             batch_y = batches_y[batchIndex]
@@ -49,7 +52,7 @@ y_test = utils.batchOneHotEncode(target[60000:])
 
 network = NeuralNetwork()
 
-network.train(x_train, y_train, 10, 64, 0.1)
+network.train(x_train, y_train, 20, 60, 0.1)
 
 result = network.evaluate(x_test, y_test)
 print(f"Test Accuracy: {result * 100:.2f}%")

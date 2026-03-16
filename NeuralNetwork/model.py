@@ -6,7 +6,7 @@ class Model:
         for layer in self.layers:
             y_predicted = layer.forward(y_predicted)
         return y_predicted
-    
+
     def backprop(self, batch_x, batch_y, lr):
         y_predicted = self.forward(batch_x)
 
@@ -30,4 +30,3 @@ class Model:
                 effectiveLearningRate = learningRate * (0.95 ** currentEpoch)
                 self.backprop(batch_x, batch_y, effectiveLearningRate)
             print(f"Epoch {currentEpoch + 1}")
-
